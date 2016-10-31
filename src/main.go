@@ -6,6 +6,8 @@ import (
 	"flag"
 	"strconv"
 	"strings"
+
+	"pearls"
 )
 
 var (
@@ -20,6 +22,10 @@ func main() {
 		return
 	}
 	s := string(data)
+
+	var max int
+	b := pearls.NewBitmap()
+
 	for _, line := range strings.Split(s, "\r\n") {
 		if line == "" {
 			continue
@@ -29,6 +35,15 @@ func main() {
 			fmt.Printf("Couldn't convert %q to integer\n", line)
 			return
 		}
-		fmt.Println(n)
+		if n > max {
+			max = n
+		}
+		b.SetBit(n)
+	}
+
+	for i := 0; i < max; i ++ {
+		if b.GetBit(i) {
+			fmt.Println(i)
+		}
 	}
 }
